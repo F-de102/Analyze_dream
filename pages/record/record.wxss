@@ -1,0 +1,649 @@
+/* 基础样式 */
+page {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #9c88ff 100%);
+  min-height: 100vh;
+  font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+}
+
+/* 容器样式 */
+.container {
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 毛玻璃效果 */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16rpx;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8rpx 32rpx 0 rgba(31, 38, 135, 0.37);
+}
+
+/* 渐变背景 */
+.gradient-bg {
+  background: linear-gradient(90deg, #9c88ff 0%, #8c7ae6 100%);
+  border: none;
+  color: white;
+}
+
+/* 渐变文字 */
+.gradient-text {
+  background: linear-gradient(90deg, #ffffff 0%, #e6e6e6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 顶部导航 */
+.top-nav {
+  padding: 30rpx 40rpx;
+  margin-bottom: 30rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  letter-spacing: 2rpx;
+}
+
+/* 标签栏 */
+.tab-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30rpx;
+  padding: 20rpx 0;
+  position: relative;
+}
+
+.tab-item {
+  position: relative;
+  padding: 20rpx 40rpx;
+  text-align: center;
+  transition: all 0.3s ease;
+  border-radius: 50rpx;
+}
+
+.tab-item.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.tab-item.active .tab-text {
+  font-weight: bold;
+}
+
+.tab-text {
+  font-size: 32rpx;
+  position: relative;
+  z-index: 2;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 10rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 6rpx;
+  background: linear-gradient(90deg, #9c88ff 0%, #8c7ae6 100%);
+  border-radius: 3rpx;
+  transition: all 0.3s ease;
+}
+
+.tab-item.active .tab-indicator {
+  width: 60%;
+}
+
+.tab-hover {
+  transform: translateY(-5rpx);
+  box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 内容区域 */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+  padding: 20rpx 30rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.record-count {
+  font-size: 28rpx;
+  opacity: 0.8;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60rpx;
+  text-align: center;
+  margin: 20rpx 0;
+}
+
+.empty-icon {
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 30rpx;
+  opacity: 0.7;
+}
+
+.empty-text {
+  font-size: 36rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-desc {
+  font-size: 28rpx;
+  opacity: 0.7;
+  margin-bottom: 40rpx;
+}
+
+.add-btn {
+  margin-top: 40rpx;
+  padding: 20rpx 60rpx;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  transition: all 0.3s ease;
+}
+
+.add-btn:active {
+  transform: scale(0.95);
+}
+
+/* 列表容器 */
+.list-container {
+  flex: 1;
+  padding: 10rpx;
+}
+
+/* 梦境卡片 */
+.dream-item {
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dream-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(156, 136, 255, 0.1) 0%, rgba(140, 122, 230, 0.1) 100%);
+  z-index: -1;
+}
+
+.dream-hover {
+  transform: translateY(-10rpx);
+  box-shadow: 0 15rpx 30rpx rgba(0, 0, 0, 0.2);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.dream-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  max-width: 70%;
+}
+
+.dream-date {
+  font-size: 28rpx;
+  opacity: 0.7;
+}
+
+.item-content {
+  display: flex;
+  margin-bottom: 20rpx;
+}
+
+.dream-thumb {
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: 30rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.thumb-image {
+  width: 100%;
+  height: 100%;
+}
+
+.dream-summary {
+  flex: 1;
+  font-size: 30rpx;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-tag {
+  padding: 8rpx 20rpx;
+  border-radius: 50rpx;
+  font-size: 24rpx;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.status-tag.pending {
+  background: rgba(255, 107, 129, 0.2);
+  color: #ff6b81;
+}
+
+.mood-indicator {
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 50%;
+  box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 日历样式 */
+.calendar-wrapper {
+  padding: 30rpx;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.month-text {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.nav-btn {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40rpx;
+  transition: all 0.3s ease;
+}
+
+.btn-hover {
+  transform: scale(1.1);
+}
+
+.weekdays-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.weekday-text {
+  flex: 1;
+  text-align: center;
+  font-size: 28rpx;
+  opacity: 0.8;
+}
+
+.calendar-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.calendar-day {
+  width: calc(100% / 7);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+  border-radius: 12rpx;
+  margin: 4rpx;
+}
+
+.day-text {
+  font-size: 32rpx;
+  z-index: 2;
+}
+
+.dream-indicator {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 15rpx;
+}
+
+.other-month {
+  opacity: 0.4;
+}
+
+.today {
+  position: relative;
+}
+
+.today::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.has-dream .day-text {
+  font-weight: bold;
+}
+
+.day-hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.2);
+  z-index: 3;
+}
+
+.date-dreams {
+  margin-top: 40rpx;
+  padding: 30rpx;
+}
+
+.selected-date-text {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+  display: block;
+}
+
+.no-dreams-text {
+  text-align: center;
+  font-size: 30rpx;
+  opacity: 0.7;
+  padding: 40rpx 0;
+}
+
+.date-dream-item {
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.date-dream-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.date-dream-summary {
+  font-size: 28rpx;
+  opacity: 0.9;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dream-mood {
+  position: absolute;
+  top: 30rpx;
+  right: 30rpx;
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+}
+
+/* 回收站样式 */
+.trash-item {
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.trash-item:hover {
+  opacity: 1;
+}
+
+.trash-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30rpx;
+  gap: 20rpx;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  transition: all 0.3s ease;
+}
+
+.action-btn.restore {
+  background: linear-gradient(90deg, #4cd137 0%, #44bd32 100%);
+}
+
+.action-btn.view {
+  background: linear-gradient(90deg, #487eb0 0%, #40739e 100%);
+}
+
+.action-btn.delete {
+  background: linear-gradient(90deg, #e84118 0%, #c23616 100%);
+}
+
+.clear-all-btn {
+  padding: 16rpx 30rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+}
+
+/* 模态框样式 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-dialog {
+  width: 80%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(50rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.modal-close {
+  font-size: 50rpx;
+  line-height: 1;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.modal-close:active {
+  transform: scale(0.9);
+}
+
+.modal-content {
+  flex: 1;
+  padding: 30rpx;
+}
+
+.detail-item {
+  margin-bottom: 40rpx;
+}
+
+.detail-label {
+  display: block;
+  font-size: 28rpx;
+  opacity: 0.7;
+  margin-bottom: 16rpx;
+}
+
+.detail-text {
+  font-size: 32rpx;
+  line-height: 1.5;
+}
+
+.detail-text.content {
+  white-space: pre-wrap;
+}
+
+.detail-image {
+  width: 100%;
+  height: 400rpx;
+  border-radius: 12rpx;
+  margin-top: 20rpx;
+}
+
+.mood-display {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-top: 20rpx;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.2);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 30rpx;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-actions {
+  display: flex;
+  margin-right: auto;
+  gap: 20rpx;
+}
+
+.footer-btn {
+  padding: 20rpx 40rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  transition: all 0.3s ease;
+}
+
+.footer-btn.restore {
+  background: linear-gradient(90deg, #4cd137 0%, #44bd32 100%);
+}
+
+.footer-btn.delete {
+  background: linear-gradient(90deg, #e84118 0%, #c23616 100%);
+}
+
+.footer-btn.cancel {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .dream-item {
+    flex-direction: column;
+  }
+  
+  .dream-thumb {
+    width: 100%;
+    height: 300rpx;
+    margin-right: 0;
+    margin-bottom: 30rpx;
+  }
+  
+  .modal-dialog {
+    width: 90%;
+  }
+}

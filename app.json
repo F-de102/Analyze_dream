@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/dream/dream",
+    "pages/record/record",
+    "pages/result/result"
+  ],
+  "window": {
+    "navigationBarTitleText": "梦境解析",
+    "navigationBarBackgroundColor": "#9c27b0",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f3e5f5",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#9c27b0",
+    "backgroundColor": "#f8f9fa",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/dream/dream",
+        "text": "梦境解析",
+        "iconPath": "assets/icons/dream.png",
+        "selectedIconPath": "assets/icons/dream-active.png"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "梦境记录",
+        "iconPath": "assets/icons/record.png",
+        "selectedIconPath": "assets/icons/record-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "libVersion": "2.10.4",
+  "usingComponents": {}
+}

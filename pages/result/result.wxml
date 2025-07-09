@@ -1,0 +1,27 @@
+<view class="result-page">
+  <!-- 返回按钮 -->
+  <view class="back-btn" bindtap="goBack">← 返回</view>
+  <view wx:if="{{!dreamImage}}" class="loading">图片加载中...</view>
+<image 
+  wx:if="{{dreamImage}}" 
+  src="{{dreamImage}}" 
+  mode="aspectFit"
+  binderror="handleImageError"
+></image>
+  
+  <!-- 梦境解析 -->
+  <view class="dream-interpretation">{{dreamInterpretation}}</view>
+
+  <!-- AI 对话 -->
+  <view class="ai-chat">
+    <scroll-view scroll-y class="chat-messages">
+      <block wx:for="{{messages}}" wx:key="id">
+        <view class="message {{item.role}}">{{item.content}}</view>
+      </block>
+    </scroll-view>
+    <view class="chat-input">
+      <input placeholder="与AI对话..." bindinput="onChatInput" value="{{chatMessage}}" />
+      <button class="btn-send" bindtap="sendMessage">发送</button>
+    </view>
+  </view>
+</view>

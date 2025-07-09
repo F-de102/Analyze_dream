@@ -1,0 +1,55 @@
+<!-- pages/login/login.wxml -->
+<view class="container">
+  <!-- 背景装饰 -->
+  <view class="bg-decoration">
+    <view class="circle circle-1"></view>
+    <view class="circle circle-2"></view>
+    <view class="circle circle-3"></view>
+  </view>
+
+  <!-- 主要内容 -->
+  <view class="main-content">
+    <!-- Logo或标题区域 -->
+    <view class="logo-section">
+      <view class="app-logo">🌟</view>
+      <text class="app-title">欢迎使用</text>
+      <text class="app-subtitle">请使用微信授权登录</text>
+    </view>
+
+    <!-- 用户信息展示区域 -->
+    <view class="user-section" wx:if="{{hasUserInfo}}">
+      <view class="user-card">
+        <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+        <view class="user-info">
+          <text class="user-name">{{userInfo.nickName}}</text>
+          <text class="welcome-text">欢迎回来！</text>
+        </view>
+      </view>
+      
+      <!-- 登录状态 -->
+      <view class="loading-section" wx:if="{{isLogging}}">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">正在登录中...</text>
+      </view>
+    </view>
+
+    <!-- 授权登录按钮 -->
+    <view class="auth-section" wx:if="{{!hasUserInfo}}">
+      <button 
+        class="auth-btn {{isLogging ? 'loading' : ''}}"
+        bindtap="getUserProfile"
+        disabled="{{isLogging}}"
+        type="primary">
+        <view class="btn-content">
+          <view class="btn-icon" wx:if="{{!isLogging}}">📱</view>
+          <view class="btn-spinner" wx:if="{{isLogging}}"></view>
+          <text class="btn-text">{{isLogging ? '授权中...' : '微信授权登录'}}</text>
+        </view>
+      </button>
+      
+      <view class="auth-tip">
+        <text>点击按钮授权获取您的基本信息</text>
+      </view>
+    </view>
+  </view>
+</view>

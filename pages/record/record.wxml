@@ -1,0 +1,278 @@
+<view class="container">
+  <!-- 顶部导航 - 毛玻璃效果 -->
+  <view class="top-nav glass-effect">
+    <text class="app-title gradient-text">梦境解析</text>
+  </view>
+
+  <!-- 标签栏 - 圆角设计 -->
+  <view class="tab-container glass-effect">
+    <view 
+      class="tab-item {{activeTab === 'list' ? 'active' : ''}}"
+      data-tab="list"
+      bindtap="switchTab"
+      hover-class="tab-hover"
+    >
+      <text class="tab-text">梦境列表</text>
+      <view class="tab-indicator"></view>
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'calendar' ? 'active' : ''}}"
+      data-tab="calendar"
+      bindtap="switchTab"
+      hover-class="tab-hover"
+    >
+      <text class="tab-text">梦境日历</text>
+      <view class="tab-indicator"></view>
+    </view>
+    <view 
+      class="tab-item {{activeTab === 'trash' ? 'active' : ''}}"
+      data-tab="trash"
+      bindtap="switchTab"
+      hover-class="tab-hover"
+    >
+      <text class="tab-text">回收站</text>
+      <view class="tab-indicator"></view>
+    </view>
+  </view>
+
+  <!-- 梦境列表页面 -->
+  <view wx:if="{{activeTab === 'list'}}" class="content">
+    <view class="section-header">
+      <text class="section-title gradient-text">我的梦境记录</text>
+      <text class="record-count">共 {{dreamRecords.length}} 条</text>
+    </view>
+    
+    <view wx:if="{{dreamRecords.length === 0}}" class="empty-state glass-effect">
+      <image src="/images/dream-icon.png" class="empty-icon" mode="aspectFit"></image>
+      <text class="empty-text gradient-text">还没有梦境记录</text>
+      <text class="empty-desc">快去记录你的第一个梦境吧！</text>
+      <button class="add-btn gradient-bg">添加梦境</button>
+    </view>
+    
+    <scroll-view wx:else scroll-y class="list-container">
+      <view 
+        wx:for="{{dreamRecords}}" 
+        wx:key="id"
+        class="dream-item glass-effect"
+        data-id="{{item.id || item.ID}}"
+        bindtap="viewDreamDetail"
+        hover-class="dream-hover"
+      >
+        <view class="item-header">
+          <text class="dream-title">{{item.title}}</text>
+          <text class="dream-date">{{item.date}}</text>
+        </view>
+        
+        <view class="item-content">
+          <view wx:if="{{item.imageUrl}}" class="dream-thumb">
+            <image 
+              src="{{item.imageUrl}}" 
+              class="thumb-image"
+              mode="aspectFill"
+            ></image>
+          </view>
+          <text class="dream-summary">{{item.summary}}</text>
+        </view>
+        
+        <view class="item-footer">
+          <view class="status-tag {{item.interpretation ? 'gradient-bg' : 'pending'}}">
+            {{item.interpretation ? '已解析' : '未解析'}}
+          </view>
+          <view class="mood-indicator" style="background-color: {{item.moodColor || '#9c88ff'}}"></view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 梦境日历页面 -->
+  <view wx:if="{{activeTab === 'calendar'}}" class="content">
+    <view class="calendar-wrapper glass-effect">
+      <!-- 日历头部 -->
+      <view class="calendar-header">
+        <button class="nav-btn gradient-bg" bindtap="prevMonth" hover-class="btn-hover">‹</button>
+        <text class="month-text gradient-text">{{currentYear}}年{{currentMonth}}月</text>
+        <button class="nav-btn gradient-bg" bindtap="nextMonth" hover-class="btn-hover">›</button>
+      </view>
+      
+      <!-- 星期标题 -->
+      <view class="weekdays-row">
+        <text 
+          wx:for="{{weekdays}}" 
+          wx:key="*this"
+          class="weekday-text"
+        >
+          {{item}}
+        </text>
+      </view>
+      
+      <!-- 日历网格 -->
+      <view class="calendar-grid">
+        <view 
+          wx:for="{{days}}" 
+          wx:key="date"
+          class="calendar-day {{item.isCurrentMonth ? '' : 'other-month'}} {{item.isToday ? 'today gradient-bg' : ''}} {{item.hasDream ? 'has-dream' : ''}}"
+          data-date="{{item.date}}"
+          bindtap="selectDay"
+          hover-class="day-hover"
+        >
+          <text class="day-text">{{item.day}}</text>
+          <view wx:if="{{item.hasDream}}" class="dream-indicator gradient-bg"></view>
+        </view>
+      </view>
+      
+      <!-- 选中日期的梦境 -->
+      <view wx:if="{{selectedDate}}" class="date-dreams glass-effect">
+        <text class="selected-date-text gradient-text">{{selectedDate}}</text>
+        <view wx:if="{{selectedDreams.length === 0}}" class="no-dreams-text">
+          这一天没有梦境记录
+        </view>
+        <view wx:else>
+          <view 
+            wx:for="{{selectedDreams}}" 
+            wx:key="id"
+            class="date-dream-item"
+            data-id="{{item.id || item.ID}}"
+            bindtap="viewDreamDetail"
+            hover-class="dream-hover"
+          >
+            <text class="date-dream-title">{{item.title}}</text>
+            <text class="date-dream-summary">{{item.summary}}</text>
+            <view class="dream-mood" style="background-color: {{item.moodColor || '#9c88ff'}}"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 回收站页面 -->
+  <view wx:if="{{activeTab === 'trash'}}" class="content">
+    <view class="section-header">
+      <text class="section-title gradient-text">回收站</text>
+      <view class="header-right">
+        <text class="record-count">{{trashRecords.length}} 条记录</text>
+        <button 
+          wx:if="{{trashRecords.length > 0}}"
+          class="clear-all-btn gradient-bg"
+          bindtap="clearAllTrash"
+          hover-class="btn-hover"
+        >
+          清空
+        </button>
+      </view>
+    </view>
+    
+    <view wx:if="{{trashRecords.length === 0}}" class="empty-state glass-effect">
+      <image src="/images/trash-icon.png" class="empty-icon" mode="aspectFit"></image>
+      <text class="empty-text gradient-text">回收站是空的</text>
+      <text class="empty-desc">被删除的梦境记录会出现在这里</text>
+    </view>
+    
+    <scroll-view wx:else scroll-y class="list-container">
+      <view 
+        wx:for="{{trashRecords}}" 
+        wx:key="id"
+        class="dream-item trash-item glass-effect"
+      >
+        <view class="item-header">
+          <text class="dream-title">{{item.title}}</text>
+          <text class="dream-date">{{item.date}}</text>
+        </view>
+        
+        <view class="item-content">
+          <view wx:if="{{item.imageUrl}}" class="dream-thumb">
+            <image 
+              src="{{item.imageUrl}}" 
+              class="thumb-image"
+              mode="aspectFill"
+            ></image>
+          </view>
+          <text class="dream-summary">{{item.summary}}</text>
+        </view>
+        
+        <view class="trash-actions">
+          <button 
+            class="action-btn restore gradient-bg"
+            data-id="{{item.id || item.ID}}"
+            bindtap="restoreDream"
+            hover-class="btn-hover"
+          >
+            恢复
+          </button>
+          <button 
+            class="action-btn view gradient-bg"
+            data-id="{{item.id || item.ID}}"
+            bindtap="viewTrashDetail"
+            hover-class="btn-hover"
+          >
+            查看
+          </button>
+          <button 
+            class="action-btn delete gradient-bg"
+            data-id="{{item.id || item.ID}}"
+            bindtap="permanentDelete"
+            hover-class="btn-hover"
+          >
+            删除
+          </button>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 梦境详情弹窗 -->
+  <view wx:if="{{showDreamDetail}}" class="modal-mask" bindtap="hideDreamDetail">
+    <view class="modal-dialog glass-effect" catchtap="stopPropagation" animation="{{modalAnimation}}">
+      <view class="modal-header">
+        <text class="modal-title gradient-text">梦境详情</text>
+        <text class="modal-close" bindtap="hideDreamDetail">×</text>
+      </view>
+      
+      <scroll-view scroll-y class="modal-content">
+        <view class="detail-item">
+          <text class="detail-label">标题</text>
+          <text class="detail-text">{{currentDream.title}}</text>
+        </view>
+        
+        <view class="detail-item">
+          <text class="detail-label">日期</text>
+          <text class="detail-text">{{currentDream.date}}</text>
+        </view>
+        
+        <view class="detail-item">
+          <text class="detail-label">心情</text>
+          <view class="mood-display" style="background-color: {{currentDream.moodColor || '#9c88ff'}}"></view>
+        </view>
+        
+        <view wx:if="{{currentDream.imageUrl}}" class="detail-item">
+          <text class="detail-label">梦境图像</text>
+          <image 
+            src="{{currentDream.imageUrl}}" 
+            class="detail-image"
+            mode="aspectFit"
+          ></image>
+        </view>
+        
+        <view class="detail-item">
+          <text class="detail-label">梦境内容</text>
+          <text class="detail-text content">{{currentDream.content}}</text>
+        </view>
+        
+        <view wx:if="{{currentDream.interpretation}}" class="detail-item">
+          <text class="detail-label">解析内容</text>
+          <text class="detail-text content">{{currentDream.interpretation}}</text>
+        </view>
+      </scroll-view>
+      
+      <view class="modal-footer">
+        <view wx:if="{{isTrashMode}}" class="footer-actions">
+          <button class="footer-btn restore gradient-bg" bindtap="restoreDreamFromModal" hover-class="btn-hover">恢复</button>
+          <button class="footer-btn delete gradient-bg" bindtap="permanentDeleteFromModal" hover-class="btn-hover">删除</button>
+        </view>
+        <view wx:else class="footer-actions">
+          <button class="footer-btn delete gradient-bg" bindtap="deleteDream" hover-class="btn-hover">删除</button>
+        </view>
+        <button class="footer-btn cancel gradient-bg" bindtap="hideDreamDetail" hover-class="btn-hover">取消</button>
+      </view>
+    </view>
+  </view>
+</view>
