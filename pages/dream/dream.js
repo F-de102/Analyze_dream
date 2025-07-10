@@ -8,6 +8,7 @@ Page({
     dreamTitle: '',
     dreamContent: '',
     showModal: false,
+    buffer: '' // 添加缓冲区
   },
 
   onLoad() {
@@ -23,12 +24,14 @@ Page({
     this.getZodiacPredictionStream();
   },
 
+  // 改进的流式获取方法
   getZodiacPredictionStream() {
     const zodiac = this.data.currentZodiac;
 
     this.setData({
       zodiacPrediction: '',
-      isLoading: true
+      isLoading: true,
+      buffer: '' // 重置缓冲区
     });
 
     const requestTask = wx.request({
@@ -37,14 +40,14 @@ Page({
       header: {
         'Content-Type': 'application/json'
       },
-      enableChunked: true, // ⚠️基础库 >= 2.31.1 支持
+      enableChunked: true,
       responseType: 'text',
       data: {
-        zodiac: zodiac
+        zodiac: this.data.currentZodiac
       },
       success: (res) => {
-        // 这里不会实时触发更新，只在连接完成时触发
-        console.log('请求完成', res);
+          // 完整接收后不处理，onChunkReceived 中负责逐步更新
+        this.setData({ isLoading: false });
       },
       fail: (err) => {
         console.error('流式获取失败:', err);
@@ -56,32 +59,111 @@ Page({
       }
     });
 
-    // 监听流式分块数据
+ 
     requestTask.onChunkReceived?.((res) => {
-      const chunkText = this.arrayBufferToText(res.data);
-      const lines = chunkText.split('\n');
+      const text = this.arrayBufferToText(res.data);
+      console.log('原始数据:', text); // 调试日志
+      
+      const lines = text.split('\n');
+      let accumulated = this.data.zodiacPrediction || '';
+    
       lines.forEach(line => {
-        if (line.startsWith('data:')) {
-          const contentStr = line.replace(/^data:\s*/, '');
-          if (contentStr === '[DONE]') {
-            this.setData({ isLoading: false });
-            return;
+        if (!line.trim()) return; // 跳过空行
+        
+        try {
+          // 处理可能的非标准SSE格式
+          let data = line;
+          if (line.startsWith('data:')) {
+            data = line.replace(/^data:\s*/, '').trim();
+            if (data === '[DONE]') return;
           }
-
-          try {
-            const json = JSON.parse(contentStr);
+    
+          // 尝试解析JSON
+          if (data.startsWith('{') || data.startsWith('[')) {
+            const json = JSON.parse(data);
             if (json.content) {
-              const current = this.data.zodiacPrediction;
+              accumulated += json.content;
+              this.setData({ 
+                zodiacPrediction: accumulated,
+                isLoading: false
+              });
+            } else if (json.error) {
+              console.error('API错误:', json.error);
               this.setData({
-                zodiacPrediction: current + json.content
+                zodiacPrediction: `错误: ${json.error}`,
+                isLoading: false
               });
             }
-          } catch (e) {
-            console.warn('解析失败', e);
+          } else if (data) {
+            // 非JSON数据直接显示
+            accumulated += data + '\n';
+            this.setData({
+              zodiacPrediction: accumulated,
+              isLoading: false
+            });
           }
+        } catch (e) {
+          console.warn('解析数据失败:', { line, error: e });
+          // 将原始数据作为文本显示
+          accumulated += line + '\n';
+          this.setData({
+            zodiacPrediction: accumulated,
+            isLoading: false
+          });
         }
       });
     });
+  },
+
+  // 处理缓冲区数据
+  processBuffer() {
+    const lines = this.data.buffer.split('\n');
+    // 保留最后一行（可能不完整）
+    this.data.buffer = lines.pop() || '';
+    
+    lines.forEach(line => {
+      if (line.startsWith('data:')) {
+        const contentStr = line.replace(/^data:\s*/, '').trim();
+        
+        if (contentStr === '[DONE]') {
+          this.setData({ isLoading: false });
+          return;
+        }
+
+        try {
+          const json = JSON.parse(contentStr);
+          if (json.content) {
+            this.appendContent(json.content);
+          }
+        } catch (e) {
+          console.warn('解析JSON失败:', contentStr, e);
+        }
+      }
+    });
+  },
+
+  // 优化内容追加，减少 setData 调用频率
+  appendContent(content) {
+    // 使用节流来优化性能
+    if (!this.contentBuffer) {
+      this.contentBuffer = '';
+    }
+    
+    this.contentBuffer += content;
+    
+    // 清除之前的定时器
+    if (this.updateTimer) {
+      clearTimeout(this.updateTimer);
+    }
+    
+    // 设置新的定时器，批量更新
+    this.updateTimer = setTimeout(() => {
+      const current = this.data.zodiacPrediction;
+      this.setData({
+        zodiacPrediction: current + this.contentBuffer
+      });
+      this.contentBuffer = '';
+    }, 50); // 50ms 批量更新一次
   },
 
   arrayBufferToText(buffer) {
@@ -90,6 +172,7 @@ Page({
     return decoder.decode(uint8Array);
   },
 
+  // 其他方法保持不变...
   showInputModal() {
     this.setData({ showModal: true });
   },
