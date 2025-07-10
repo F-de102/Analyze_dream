@@ -72,3 +72,7 @@
   background-color: #ba68c8;
   color: white;
 }
+.paragraph {
+  margin-bottom: 30rpx;
+  white-space: pre-wrap; /* 保留换行和空格 */
+}

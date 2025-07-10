@@ -10,7 +10,12 @@
 ></image>
   
   <!-- 梦境解析 -->
-  <view class="dream-interpretation">{{dreamInterpretation}}</view>
+  <view class="dream-interpretation">
+  <view wx:for="{{dreamInterpretationLines}}" wx:key="index" class="paragraph">
+    {{item}}
+  </view>
+</view>
+
 
   <!-- AI 对话 -->
   <view class="ai-chat">
