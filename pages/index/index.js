@@ -135,7 +135,7 @@ Page({
           app.globalData.userId = res.data.user.id;
           
           // 同时保存到本地存储
-          //wx.setStorageSync('token', res.data.token);
+          wx.setStorageSync('token', res.data.token);
           //wx.setStorageSync('userId', res.data.user.id);
           //wx.setStorageSync('userInfo', res.data.user);
           
