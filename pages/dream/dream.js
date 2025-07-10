@@ -62,7 +62,7 @@ Page({
  
     requestTask.onChunkReceived?.((res) => {
       const text = this.arrayBufferToText(res.data);
-      console.log('原始数据:', text); // 调试日志
+      //console.log('原始数据:', text); // 调试日志
       
       const lines = text.split('\n');
       let accumulated = this.data.zodiacPrediction || '';
@@ -115,57 +115,7 @@ Page({
     });
   },
 
-  // 处理缓冲区数据
-  processBuffer() {
-    const lines = this.data.buffer.split('\n');
-    // 保留最后一行（可能不完整）
-    this.data.buffer = lines.pop() || '';
-    
-    lines.forEach(line => {
-      if (line.startsWith('data:')) {
-        const contentStr = line.replace(/^data:\s*/, '').trim();
-        
-        if (contentStr === '[DONE]') {
-          this.setData({ isLoading: false });
-          return;
-        }
-
-        try {
-          const json = JSON.parse(contentStr);
-          if (json.content) {
-            this.appendContent(json.content);
-          }
-        } catch (e) {
-          console.warn('解析JSON失败:', contentStr, e);
-        }
-      }
-    });
-  },
-
-  // 优化内容追加，减少 setData 调用频率
-  appendContent(content) {
-    // 使用节流来优化性能
-    if (!this.contentBuffer) {
-      this.contentBuffer = '';
-    }
-    
-    this.contentBuffer += content;
-    
-    // 清除之前的定时器
-    if (this.updateTimer) {
-      clearTimeout(this.updateTimer);
-    }
-    
-    // 设置新的定时器，批量更新
-    this.updateTimer = setTimeout(() => {
-      const current = this.data.zodiacPrediction;
-      this.setData({
-        zodiacPrediction: current + this.contentBuffer
-      });
-      this.contentBuffer = '';
-    }, 50); // 50ms 批量更新一次
-  },
-
+  
   arrayBufferToText(buffer) {
     const uint8Array = new Uint8Array(buffer);
     const decoder = new TextDecoder('utf-8');

@@ -35,5 +35,6 @@
   "style": "v2",
   "sitemapLocation": "sitemap.json",
   "libVersion": "2.10.4",
-  "usingComponents": {}
+  "usingComponents": {},
+  "requiredBackgroundModes": ["fetch"]
 }
