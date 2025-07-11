@@ -141,6 +141,7 @@
   transition: all 0.2s ease;
 }
 
+
 .btn-send:active {
   transform: scale(0.96);
   box-shadow: 0 2rpx 8rpx rgba(126, 87, 194, 0.3);
@@ -165,4 +166,8 @@
 /* 隐藏原生滚动条但保持可滚动 */
 .dream-interpretation-container ::-webkit-scrollbar {
   display: none;
+}
+.paragraph {
+  margin-bottom: 30rpx;
+  white-space: pre-wrap; /* 保留换行和空格 */
 }

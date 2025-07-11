@@ -13,9 +13,16 @@
   ></image>
   
   <!-- 可滚动的梦境解析 -->
-  <scroll-view scroll-y class="dream-interpretation-container">
+  <!-- <scroll-view scroll-y class="dream-interpretation-container">
     <view class="dream-interpretation-content">{{dreamInterpretation}}</view>
-  </scroll-view>
+  </scroll-view> -->
+  <!-- 梦境解析 -->
+  <scroll-view scroll-y class="dream-interpretation">
+  <view wx:for="{{dreamInterpretationLines}}" wx:key="index" class="paragraph">
+    {{item}}
+  </view>
+</scroll-view>
+
 
   <!-- AI 对话 -->
   <view class="ai-chat">

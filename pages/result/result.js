@@ -46,7 +46,8 @@ Page({
   
             if (json.content) {
               accumulated += json.content;
-              this.setData({ dreamInterpretation: accumulated });
+              const lines = accumulated.split(/\n\s*\n/);
+              this.setData({ dreamInterpretation: accumulated ,dreamInterpretationLines: lines});
             } else if (json.done) {
               this.setData({
                 dreamImage: json.imageUrl,
