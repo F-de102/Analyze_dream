@@ -3,15 +3,20 @@
     "pages/index/index",
     "pages/dream/dream",
     "pages/record/record",
-    "pages/result/result"
+    "pages/result/result",
+    "pages/weekly-record/weekly-record"
   ],
-  "window": {
-    "navigationBarTitleText": "梦境解析",
-    "navigationBarBackgroundColor": "#9c27b0",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#f3e5f5",
-    "backgroundTextStyle": "light"
-  },
+  
+    "window": {
+      "navigationBarTitleText": "✨ 梦境周报",
+      "navigationBarBackgroundColor": "#8B5FBF",
+      "navigationBarTextStyle": "white",
+      "backgroundColor": "#E6A0C4",
+      "backgroundTextStyle": "light",
+      "enablePullDownRefresh": false,
+      "navigationStyle": "default"
+    },
+  
   "tabBar": {
     "color": "#999",
     "selectedColor": "#9c27b0",
@@ -29,6 +34,12 @@
         "text": "梦境记录",
         "iconPath": "assets/icons/record.png",
         "selectedIconPath": "assets/icons/record-active.png"
+      },
+      {
+        "pagePath": "pages/weekly-record/weekly-record",
+        "text": "梦境记录",
+        "iconPath": "assets/icons/weekly-record.png",
+        "selectedIconPath": "assets/icons/weekly-record.png"
       }
     ]
   },
@@ -36,5 +47,7 @@
   "sitemapLocation": "sitemap.json",
   "libVersion": "2.10.4",
   "usingComponents": {},
-  "requiredBackgroundModes": ["fetch"]
+  "requiredBackgroundModes": [
+    "fetch"
+  ]
 }

@@ -1,0 +1,88 @@
+<!-- pages/weekly-report/weekly-report.wxml -->
+<view class="container">
+  <view class="header">
+    <text class="title">✨ 梦境周报</text>
+    <text class="date">2025.01.06 - 2025.01.12</text>
+  </view>
+
+  <view class="generate-section" wx:if="{{!showReport}}">
+    <button class="generate-btn" bindtap="generateReport" disabled="{{isLoading}}">
+      {{isLoading ? '生成中...' : '生成我的梦境周报'}}
+    </button>
+  </view>
+
+  <view class="loading" wx:if="{{isLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">正在分析您的梦境数据...</text>
+  </view>
+
+  <view class="report-content" wx:if="{{showReport}}">
+    <!-- 关键词部分 -->
+    <view class="report-card keywords-card">
+      <view class="card-title">
+        <text class="icon">🔑</text>
+        <text>本周关键词</text>
+      </view>
+      <view class="keywords-grid">
+        <view class="keyword-tag" wx:for="{{keywords}}" wx:key="index">
+          <text>{{item}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 心理状态分析 -->
+    <view class="report-card psychology-card">
+      <view class="card-title">
+        <text class="icon">🧠</text>
+        <text>心理状态分析</text>
+      </view>
+      <view class="analysis-text">
+        <text class="{{psychologyTyping ? 'typewriter' : ''}}">{{displayPsychologyText}}</text>
+      </view>
+    </view>
+
+    <!-- 运势分析 -->
+    <view class="report-card fortune-card">
+      <view class="card-title">
+        <text class="icon">🍀</text>
+        <text>本周运势</text>
+      </view>
+      <view class="analysis-text">
+        <text class="{{fortuneTyping ? 'typewriter' : ''}}">{{displayFortuneText}}</text>
+      </view>
+      <view class="fortune-level" wx:if="{{showFortune}}">
+        <text class="fortune-label">综合运势</text>
+        <view class="fortune-bar">
+          <view class="fortune-fill" style="width: {{fortunePercent}}%;"></view>
+        </view>
+        <text class="fortune-percent">{{fortunePercent}}%</text>
+      </view>
+    </view>
+
+    <!-- 统计图表 -->
+    <view class="report-card chart-card">
+      <view class="card-title">
+        <text class="icon">📊</text>
+        <text>梦境记录统计</text>
+      </view>
+      <view class="chart-container">
+        <text class="chart-title">本周做梦频次变化</text>
+        <view class="chart">
+          <view class="chart-line" wx:if="{{showChart}}">
+            <view class="line"></view>
+            <view class="chart-point" 
+                  wx:for="{{chartPoints}}" 
+                  wx:key="index"
+                  style="left: {{item.x}}%; bottom: {{item.y}}%;"
+                  data-delay="{{index * 200}}"
+                  class="{{showChart ? 'point-animate' : ''}}">
+            </view>
+          </view>
+        </view>
+        <view class="chart-labels">
+          <text wx:for="{{weekDays}}" wx:key="index">{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
