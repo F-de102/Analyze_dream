@@ -37,7 +37,7 @@
       },
       {
         "pagePath": "pages/weekly-record/weekly-record",
-        "text": "梦境记录",
+        "text": "梦境周报",
         "iconPath": "assets/icons/weekly-record.png",
         "selectedIconPath": "assets/icons/weekly-record.png"
       }

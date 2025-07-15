@@ -1,8 +1,6 @@
 <view class="container">
   <!-- 顶部导航 - 毛玻璃效果 -->
-  <view class="top-nav glass-effect">
-    <text class="app-title gradient-text">梦境解析</text>
-  </view>
+
 
   <!-- 标签栏 - 圆角设计 -->
   <view class="tab-container glass-effect">

@@ -43,13 +43,10 @@ page {
 
 /* 顶部导航 */
 .top-nav {
-  padding: 30rpx 40rpx;
-  margin-bottom: 30rpx;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  height: 80rpx; /* 保持导航栏高度 */
 }
-
 .app-title {
   font-size: 48rpx;
   font-weight: bold;
@@ -113,14 +110,11 @@ page {
   flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 0 20rpx; /* 增加左右内边距 */
 }
-
 .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30rpx;
-  padding: 20rpx 30rpx;
+  padding: 20rpx 0; /* 减少上下内边距 */
+  margin-bottom: 15rpx; /* 减少与卡片的间距 */
 }
 
 .section-title {
@@ -129,14 +123,11 @@ page {
 }
 
 .record-count {
-  font-size: 28rpx;
-  opacity: 0.8;
+  font-size: 26rpx; /* 调小字体 */
 }
 
 .header-right {
-  display: flex;
-  align-items: center;
-  gap: 20rpx;
+  gap: 15rpx; /* 缩小元素间距 */
 }
 
 /* 空状态 */
@@ -286,9 +277,9 @@ page {
 
 /* 日历样式 */
 .calendar-wrapper {
-  padding: 30rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
 }
-
 .calendar-header {
   display: flex;
   justify-content: space-between;
@@ -323,10 +314,8 @@ page {
 }
 
 .weekday-text {
-  flex: 1;
-  text-align: center;
-  font-size: 28rpx;
-  opacity: 0.8;
+  font-size: 26rpx;
+  padding: 10rpx 0;
 }
 
 .calendar-grid {
@@ -335,17 +324,32 @@ page {
 }
 
 .calendar-day {
-  width: calc(100% / 7);
-  aspect-ratio: 1;
+  width: calc(100% / 7 - 8rpx);
+  height: 80rpx;
+  margin: 4rpx;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  transition: all 0.3s ease;
-  border-radius: 12rpx;
-  margin: 4rpx;
+  border-radius: 8rpx;
+  background: rgba(255, 255, 255, 0.1);
 }
+.calendar-day.today {
+  background: rgba(156, 136, 255, 0.3);
+  font-weight: bold;
+}
+
+.calendar-day.has-dream::after {
+  content: '';
+  position: absolute;
+  bottom: 8rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: #9c88ff;
+}
+
+
 
 .day-text {
   font-size: 32rpx;
@@ -444,29 +448,31 @@ page {
 
 /* 回收站样式 */
 .trash-item {
-  opacity: 0.8;
-  transition: all 0.3s ease;
+  margin-bottom: 20rpx; /* 减少卡片间距 */
+  padding: 25rpx; /* 调整内边距 */
 }
+
 
 .trash-item:hover {
   opacity: 1;
 }
 
 .trash-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30rpx;
-  gap: 20rpx;
+  margin-top: 15rpx; /* 减少按钮与内容的间距 */
+  padding-top: 15rpx;
+  border-top: 1px dashed rgba(255,255,255,0.2); /* 添加分割线 */
 }
 
 .action-btn {
-  flex: 1;
-  padding: 20rpx;
-  border-radius: 12rpx;
-  font-size: 28rpx;
-  transition: all 0.3s ease;
+  height: 70rpx; /* 固定高度 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1; /* 解决文字垂直居中问题 */
 }
-
+.action-btn.delete {
+  background: linear-gradient(90deg, #ff4757 0%, #e84118 100%);
+}
 .action-btn.restore {
   background: linear-gradient(90deg, #4cd137 0%, #44bd32 100%);
 }
@@ -503,12 +509,11 @@ page {
 
 .modal-dialog {
   width: 80%;
-  max-height: 80vh;
+  height: 85vh; /* 增加高度 */
+  max-height: 85vh; /* 限制最大高度 */
   display: flex;
   flex-direction: column;
-  animation: modalFadeIn 0.3s ease;
 }
-
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -547,6 +552,8 @@ page {
 .modal-content {
   flex: 1;
   padding: 30rpx;
+  height: 60vh; /* 固定高度 */
+  overflow-y: auto; /* 确保可以滚动 */
 }
 
 .detail-item {
@@ -645,5 +652,30 @@ page {
   
   .modal-dialog {
     width: 90%;
+  }
+  .container {
+    padding: 20rpx 25rpx; /* 左右增加边距 */
+  }
+  .empty-state {
+    margin: 40rpx 20rpx;
+    padding: 50rpx 30rpx;
+  }
+  .action-btn:active, .footer-btn:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  @media (max-width: 500px) {
+    .modal-dialog {
+      width: 90%;
+      height: 80vh;
+    }
+    
+    .calendar-day {
+      height: 70rpx;
+      font-size: 26rpx;
+    }
+  }
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.2); /* 提高透明度 */
   }
 }
